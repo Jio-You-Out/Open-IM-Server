@@ -4,7 +4,7 @@ etcd:
   etcdAddr: [ 127.0.0.1:2379 ] #单机部署时，默认即可
   userName:
   password:
-  secret: openIM123
+  secret: YofQq4EowKmL6e9t!zg!
 
 mysql:
   dbMysqlDatabaseName: admin_chat # 数据库名字 默认即可
@@ -13,7 +13,7 @@ mysql:
 admin:
   defaultAccount:
     account: [ "admin1", "admin2" ]
-    defaultPassword: [ "password1", "password2" ]
+    defaultPassword: [ "9es#5hcNAx9J", "53$1AIw3h4Tv" ]
     openIMUserID: [ "openIM123456", "openIMAdmin" ]
     faceURL: [ "", "" ]
     nickname: [ "admin1", "admin2" ]
@@ -62,4 +62,4 @@ oss:
     secretKey: ""
     sessionToken: ""
     bucket: ""
-  use: "minio"
+    use: "minio"

@@ -13,11 +13,12 @@ import (
 	"strings"
 )
 
-func ExtendMessageUpdatedNotification(operationID, sendID string, sourceID string, sessionType int32,
+func ExtendMessageUpdatedNotification(operationID, sendID string, sourceID string, senderPlatformID, sessionType int32,
 	req *msg.SetMessageReactionExtensionsReq, resp *msg.SetMessageReactionExtensionsResp, isHistory bool, isReactionFromCache bool) {
 	var m base_info.ReactionMessageModifierNotification
 	m.SourceID = req.SourceID
 	m.OpUserID = req.OpUserID
+	m.Operation = constant.SetMessageExtensions
 	m.SessionType = req.SessionType
 	keyMap := make(map[string]*open_im_sdk.KeyValue)
 	for _, valueResp := range resp.Result {
@@ -34,9 +35,33 @@ func ExtendMessageUpdatedNotification(operationID, sendID string, sourceID strin
 	m.IsReact = resp.IsReact
 	m.IsExternalExtensions = req.IsExternalExtensions
 	m.MsgFirstModifyTime = resp.MsgFirstModifyTime
-	messageReactionSender(operationID, sendID, sourceID, sessionType, constant.ReactionMessageModifier, utils.StructToJsonString(m), isHistory, isReactionFromCache)
+	messageReactionSender(operationID, sendID, sourceID, senderPlatformID, sessionType, constant.ReactionMessageModifier, utils.StructToJsonString(m), isHistory, isReactionFromCache)
 }
-func ExtendMessageDeleteNotification(operationID, sendID string, sourceID string, sessionType int32,
+func ExtendMessageAddedNotification(operationID, sendID string, sourceID string, senderPlatformID, sessionType int32,
+	req *msg.AddMessageReactionExtensionsReq, resp *msg.AddMessageReactionExtensionsResp, isHistory bool, isReactionFromCache bool) {
+	var m base_info.ReactionMessageModifierNotification
+	m.SourceID = req.SourceID
+	m.OpUserID = req.OpUserID
+	m.Operation = constant.AddMessageExtensions
+	m.SessionType = req.SessionType
+	keyMap := make(map[string]*open_im_sdk.KeyValue)
+	for _, valueResp := range resp.Result {
+		if valueResp.ErrCode == 0 {
+			keyMap[valueResp.KeyValue.TypeKey] = valueResp.KeyValue
+		}
+	}
+	if len(keyMap) == 0 {
+		log.NewWarn(operationID, "all key set failed can not send notification", *req)
+		return
+	}
+	m.SuccessReactionExtensionList = keyMap
+	m.ClientMsgID = req.ClientMsgID
+	m.IsReact = resp.IsReact
+	m.IsExternalExtensions = req.IsExternalExtensions
+	m.MsgFirstModifyTime = resp.MsgFirstModifyTime
+	messageReactionSender(operationID, sendID, sourceID, senderPlatformID, sessionType, constant.ReactionMessageModifier, utils.StructToJsonString(m), isHistory, isReactionFromCache)
+}
+func ExtendMessageDeleteNotification(operationID, sendID string, sourceID string, senderPlatformID, sessionType int32,
 	req *msg.DeleteMessageListReactionExtensionsReq, resp *msg.DeleteMessageListReactionExtensionsResp, isHistory bool, isReactionFromCache bool) {
 	var m base_info.ReactionMessageDeleteNotification
 	m.SourceID = req.SourceID
@@ -56,9 +81,9 @@ func ExtendMessageDeleteNotification(operationID, sendID string, sourceID string
 	m.ClientMsgID = req.ClientMsgID
 	m.MsgFirstModifyTime = req.MsgFirstModifyTime
 
-	messageReactionSender(operationID, sendID, sourceID, sessionType, constant.ReactionMessageDeleter, utils.StructToJsonString(m), isHistory, isReactionFromCache)
+	messageReactionSender(operationID, sendID, sourceID, senderPlatformID, sessionType, constant.ReactionMessageDeleter, utils.StructToJsonString(m), isHistory, isReactionFromCache)
 }
-func messageReactionSender(operationID, sendID string, sourceID string, sessionType, contentType int32, content string, isHistory bool, isReactionFromCache bool) {
+func messageReactionSender(operationID, sendID string, sourceID string, senderPlatformID, sessionType, contentType int32, content string, isHistory bool, isReactionFromCache bool) {
 	options := make(map[string]bool, 5)
 	utils.SetSwitchFromOptions(options, constant.IsOfflinePush, false)
 	utils.SetSwitchFromOptions(options, constant.IsConversationUpdate, false)
@@ -72,12 +97,13 @@ func messageReactionSender(operationID, sendID string, sourceID string, sessionT
 	pbData := msg.SendMsgReq{
 		OperationID: operationID,
 		MsgData: &open_im_sdk.MsgData{
-			SendID:      sendID,
-			ClientMsgID: utils.GetMsgID(sendID),
-			SessionType: sessionType,
-			MsgFrom:     constant.SysMsgType,
-			ContentType: contentType,
-			Content:     []byte(content),
+			SendID:           sendID,
+			SenderPlatformID: senderPlatformID,
+			ClientMsgID:      utils.GetMsgID(sendID),
+			SessionType:      sessionType,
+			MsgFrom:          constant.SysMsgType,
+			ContentType:      contentType,
+			Content:          []byte(content),
 			//	ForceList:        params.ForceList,
 			CreateTime: utils.GetCurrentTimestampByMill(),
 			Options:    options,

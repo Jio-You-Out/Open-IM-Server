@@ -9,14 +9,14 @@ etcd:
   etcdAddr: [ 127.0.0.1:2379 ] #单机部署时，默认即可
   userName:
   password:
-  secret:
+  secret: "YofQq4EowKmL6e9t!zg!"
 
 mysql:
   dbMysqlAddress: [ 127.0.0.1:13306 ] #mysql地址 目前仅支持单机，默认即可
-  dbMysqlUserName:  #mysql用户名，建议修改
-  dbMysqlPassword:  # mysql密码，建议修改
-  dbMysqlDatabaseName: openIM_v2 #默认即可
-  dbTableName: eMsg #默认即可
+  dbMysqlUserName: "root" #mysql用户名，建议修改
+  dbMysqlPassword: "p5XO#kj3Ew@1c!C*E6@s" # mysql密码，建议修改
+  dbMysqlDatabaseName: "openIM_v2" #默认即可
+  dbTableName: "eMsg" #默认即可
   dbMsgTableNum: 1
   dbMaxOpenConns: 100
   dbMaxIdleConns: 10
@@ -32,8 +32,8 @@ mongo:
   dbTimeout: 60
   dbDatabase: openIM  #mongo db 默认即可
   dbSource: admin
-  dbUserName:  #mongo用户名，建议先不设置
-  dbPassword:   #mongo密码，建议先不设置
+  dbUserName: "root" #mongo用户名，建议先不设置
+  dbPassword: "kP1T*f@J&*7m2O7TJtR$"  #mongo密码，建议先不设置
   dbMaxPoolSize: 100
   dbRetainChatRecords: 3650 #mongo保存离线消息时间（天），根据需求修改
   chatRecordsClearTime: "0 3 * * *" # 每天凌晨3点清除消息，该配置和linux定时任务一样， 清理操作建议设置在用户活跃少的时候 # 0 3 * * *
@@ -43,8 +43,8 @@ redis:
   dbMaxIdle: 128
   dbMaxActive: 0
   dbIdleTimeout: 120
-  dbUserName:     #only redis version 6.0+ need username
-  dbPassWord:  #redis密码 建议修改
+  dbUserName: "root"    #only redis version 6.0+ need username
+  dbPassWord: "oNZKCK137!Fne7F!v7gm" #redis密码 建议修改
   enableCluster: false #如果外部redis以集群方式启动，需要打开此开关
 
 kafka:
@@ -124,12 +124,12 @@ credential: #腾讯cos，发送图片、视频、文件时需要，请自行申�
     bucket: openim # 存储内容桶
     appBucket: app # 存储app的桶
     location: us-east-1
-    endpoint:  #minio外网ip 这个ip是给客户端访问的
+    endpoint: http://13.215.128.181:9000 #是给客户端访问的minio外网ip 
     endpointInner: http://127.0.0.1:10005 #minio内网地址 如果im server 可以通过内网访问到 minio就可以
     endpointInnerEnable: true #是否启用minio内网地址 启用可以让桶初始化，IM server连接minio走内网地址访问
-    accessKeyID:
-    secretAccessKey:
-    storageTime: 50 #文件在minio中保存的时间
+    accessKeyID: root
+    secretAccessKey: H5p@gyQb*L@#5Y18GsVA
+    storageTime: 999 #文件在minio中保存的时间
     isDistributedMod: false # 是否分布式多硬盘部署 默认docker-compose中为false
   ali: # ali oss
     regionID:
@@ -229,11 +229,11 @@ push:
     pushIntent:
     enable: false # true or false (bool)
   getui:  #个推推送
-    pushUrl: 
-    masterSecret: ""
-    appKey: ""
+    pushUrl: "https://restapi.getui.com/v2/boh2I7ESnb5rTw0zK6cBk3"
+    masterSecret: "tOUxUYulLS6PXmnxIXPR16"
+    appKey: "tt4SSYU5gx8cT46vuddVW"
     intent: ""
-    enable: # true or false (bool)
+    enable: true # true or false (bool)
     channelID: ""
     channelName: ""
   fcm:  #firebase cloud message 消息推送
@@ -276,7 +276,7 @@ tokenpolicy:
   # Token effective time day as a unit
   accessExpire:  #token过期时间（天） 默认即可
 messageverify:
-  friendVerify:
+  friendVerify: true
 
 #  c2c:
 #    callbackBeforeSendMsg:

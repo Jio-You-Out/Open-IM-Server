@@ -23,9 +23,15 @@ credential:
   minio:
     endpoint: http://13.215.128.181:9000
     accessKeyID: root
+<<<<<<< HEAD
     secretAccessKey: "H5p@gyQb*L@#5Y18GsVA"
 
 secret: "4MP0%n8@3ZjK1yAo9mP"
+=======
+    secretAccessKey: 4MP0%n8@3ZjK1yAo9
+
+secret: 4MP0%n8@3ZjK1yAo9
+>>>>>>> ba44bcc6649c6582c041e3f37a4195621227f5c3
 
 tokenpolicy:
   accessSecret: "open_im_server" #token生成相关 建议修改

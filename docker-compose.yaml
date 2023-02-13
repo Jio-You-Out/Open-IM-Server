@@ -11,7 +11,7 @@ services:
       - ${DATA_DIR}/components/mysql/data:/var/lib/mysql
       - /etc/localtime:/etc/localtime
     environment:
-      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
 
   mongodb:
@@ -30,10 +30,10 @@ services:
       # cache
       - wiredTigerCacheSizeGB=1
       - MONGO_INITDB_ROOT_USERNAME=${USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${PASSWORD}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
       - MONGO_INITDB_DATABASE=openIM
       - MONGO_USERNAME=${USER}
-      - MONGO_PASSWORD=${PASSWORD}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
     #
     restart: always
 
@@ -109,7 +109,7 @@ services:
       - /mnt/config:/root/.minio
     environment:
       MINIO_ROOT_USER: ${USER}
-      MINIO_ROOT_PASSWORD: ${PASSWORD}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET}
     restart: always
     command: minio server /data --console-address ':9090'
 

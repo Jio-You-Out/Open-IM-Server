@@ -4,7 +4,7 @@ etcd:
   etcdAddr: [ 127.0.0.1:2379 ] #单机部署时，默认即可
   userName:
   password:
-  secret: YofQq4EowKmL6e9t!zg!
+  secret: 4MP0%n8@3ZjK1yAo9mP
 
 mysql:
   dbMysqlDatabaseName: admin_chat # 数据库名字 默认即可

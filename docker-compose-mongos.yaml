@@ -12,7 +12,7 @@ services:
       - ./components/mysql/data:/var/lib/mysql
       - /etc/localtime:/etc/localtime
     environment:
-      MYSQL_ROOT_PASSWORD: openIM
+      MYSQL_ROOT_PASSWORD: "openIM123"
     restart: always
 
   mongos:
@@ -110,8 +110,8 @@ services:
       - /mnt/data:/data
       - /mnt/config:/root/.minio
     environment:
-      MINIO_ROOT_USER: user12345
-      MINIO_ROOT_PASSWORD: key12345
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: "H5p@gyQb*L@#5Y18GsVA"
     restart: always
     command: minio server /data --console-address ':9090'
 
